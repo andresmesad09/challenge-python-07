@@ -72,14 +72,38 @@ DATA = [
 ]
 
 
+def homeless_key(worker_dict):
+    worker = worker_dict.copy()
+    if worker['organization'] == '':
+        worker['homeless'] = True
+    else:
+        worker['homeless'] = False
+    return worker
+
+
+def old_key(worker_dict):
+    worker = worker_dict.copy()
+    if worker['age'] > 30:
+        worker['old'] = True
+    else:
+        worker['old'] = False
+    return worker
+
+
 def run():
-
-    all_python_devs =  # Using filter, generate a list with all the python devs
-    all_Platzi_workers =  # Using filter, generate a list with all the Platzi workers
-    adults =  # Using filter, generate a list with all people over 18 years old
-    workers =  # Using map, generate a new list of people with a key 'homeless' with True or False values, if 'organization' have something or not
-    old_people =  # Using map, generate a new list of people with a key 'old' with True or False values, if 'age' is greater than 30 or not
-
+    
+    # Using filter, generate a list with all the python devs
+    all_python_devs = list(filter(lambda x: x['language'] == 'python', DATA))
+    # Using filter, generate a list with all the Platzi workers 
+    all_Platzi_workers = list(filter(lambda x: x['organization'] == 'Platzi', DATA))  
+    # Using filter, generate a list with all people over 18 years old
+    adults =  list(filter(lambda x: x['age'] >= 18, DATA))  
+    # Using map, generate a new list of people with a key 'homeless' with True or False values, if 'organization' have something or not
+    workers =  list(map(lambda x: homeless_key(x), DATA))
+    # Using map, generate a new list of people with a key 'old' with True or False values, if 'age' is greater than 30 or not
+    old_people =  list(map(lambda x: old_key(x), DATA))
+    
+    
     print('Python devs: ')
     for dev in all_python_devs:
         print(dev['name'])
